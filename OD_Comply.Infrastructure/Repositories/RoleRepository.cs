@@ -33,7 +33,7 @@ namespace OD_Comply.Infrastructure.Repositories
             try
             {
                 List<Role> roles = new List<Role>();
-               var query = "GetAllRoles";
+               var query = "SP_OD_GET_ALL_ROLES";
               
                 using (var connection = CreateConnection())
                 {                   
