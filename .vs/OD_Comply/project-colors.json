@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "de3142cc-4976-4f52-86f6-81682be16078": {
+      "ProjectGuid": "de3142cc-4976-4f52-86f6-81682be16078",
+      "DisplayName": "OD_Comply.WebApi",
+      "ColorIndex": 0
+    },
+    "a2dd38cf-4b66-48de-9f4c-d4f2abd619c9": {
+      "ProjectGuid": "a2dd38cf-4b66-48de-9f4c-d4f2abd619c9",
+      "DisplayName": "OD_Comply.Infrastructure",
+      "ColorIndex": 1
+    },
+    "f9af2662-436c-4451-a7e2-3affd930a0b2": {
+      "ProjectGuid": "f9af2662-436c-4451-a7e2-3affd930a0b2",
+      "DisplayName": "OD_Comply.Application",
+      "ColorIndex": 2
+    },
+    "96edfafa-1db2-44cc-9e5f-57b224505133": {
+      "ProjectGuid": "96edfafa-1db2-44cc-9e5f-57b224505133",
+      "DisplayName": "OD_Comply.Core",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "OD_Comply.Application/1.0.0": {
+        "dependencies": {
+          "OD_Comply.Core": "1.0.0"
+        },
+        "runtime": {
+          "OD_Comply.Application.dll": {}
+        }
+      },
+      "OD_Comply.Core/1.0.0": {
+        "runtime": {
+          "OD_Comply.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OD_Comply.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "OD_Comply.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
