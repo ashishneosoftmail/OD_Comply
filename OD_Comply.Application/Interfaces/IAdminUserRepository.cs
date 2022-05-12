@@ -9,6 +9,8 @@ namespace OD_Comply.Application.Interfaces
 {
     public interface IAdminUserRepository : IGenericRepository<AdminUser>
     {
+        Task<Tuple<string, bool, IReadOnlyList<AdminUserDetail>>> GetAllAdminUsersAsync();
+        Task<Tuple<string, bool, AdminUserDetail>> GetAdminUserByIdAsync(int id);
         Task<Tuple<string, bool, AdminUserDetail, JwtTokenDetails>> Login(string email, string password);
     }
 }

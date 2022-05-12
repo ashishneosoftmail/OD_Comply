@@ -27,34 +27,41 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Ashish\\Clients\\V-Group\\OD_Comply_t\\OD_Comply.Application\\OD_Comply.Application.csproj",
+      "projectUniqueName": "D:\\MY_PROJECTS\\OD_Comply\\OD_Comply.Application\\OD_Comply.Application.csproj",
       "projectName": "OD_Comply.Application",
-      "projectPath": "D:\\Ashish\\Clients\\V-Group\\OD_Comply_t\\OD_Comply.Application\\OD_Comply.Application.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\Ashish\\Clients\\V-Group\\OD_Comply_t\\OD_Comply.Application\\obj\\",
+      "projectPath": "D:\\MY_PROJECTS\\OD_Comply\\OD_Comply.Application\\OD_Comply.Application.csproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "D:\\MY_PROJECTS\\OD_Comply\\OD_Comply.Application\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\Offline Packages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\DevExpress 21.2\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.devexpress.com/FZ7RekGSiPQFFidJso5lBGahuOI5ctcdTUAUUTbLd7g99AUNlX/api": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Ashish\\Clients\\V-Group\\OD_Comply_t\\OD_Comply.Core\\OD_Comply.Core.csproj": {
-              "projectPath": "D:\\Ashish\\Clients\\V-Group\\OD_Comply_t\\OD_Comply.Core\\OD_Comply.Core.csproj"
+            "D:\\MY_PROJECTS\\OD_Comply\\OD_Comply.Core\\OD_Comply.Core.csproj": {
+              "projectPath": "D:\\MY_PROJECTS\\OD_Comply\\OD_Comply.Core\\OD_Comply.Core.csproj"
             }
           }
         }
@@ -83,7 +90,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

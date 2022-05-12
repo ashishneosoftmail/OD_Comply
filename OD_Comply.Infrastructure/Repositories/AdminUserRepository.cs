@@ -76,7 +76,7 @@ namespace OD_Comply.Infrastructure.Repositories
             {
                 var query = "SP_OD_DELETE_ADMIN_USER";
                 var parameters = new DynamicParameters();
-                parameters.Add("Id", 0, DbType.Int32);               
+                parameters.Add("Id", id, DbType.Int32);               
                 parameters.Add("DeletedOn", DateTime.Now, DbType.DateTime);
                 parameters.Add("DeletedBy", null, DbType.String);
                 parameters.Add("IsSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
@@ -102,14 +102,105 @@ namespace OD_Comply.Infrastructure.Repositories
 
         }
 
-        public Task<Tuple<IReadOnlyList<AdminUser>, string, bool>> GetAllAsync()
+        public async Task<Tuple<string, bool,IReadOnlyList<AdminUserDetail>>> GetAllAdminUsersAsync()
+        {
+            string msg = "";
+            bool isSuccess = false;
+            try
+            {
+                List<AdminUserDetail> adminUsers = new List<AdminUserDetail>();
+                var query = "SP_OD_GET_ALL_ADMIN_USERS";
+                var parameters = new DynamicParameters();
+                parameters.Add("IsSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                parameters.Add("MSG", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
+
+
+                using (var connection = CreateConnection())
+                {
+                    var data = (await connection.QueryAsync(query,parameters, commandType: CommandType.StoredProcedure)).ToList();
+                    isSuccess = parameters.Get<bool>("IsSuccess");
+                    msg = parameters.Get<string>("MSG");
+                    if (isSuccess)
+                    {
+                        foreach (var entity in data)
+                        {
+                            AdminUserDetail admin = new AdminUserDetail();
+                            admin.Id = entity.Id;
+                            admin.RoleId = entity.RoleId;
+                            admin.RoleName = entity.RoleName;
+                            admin.Uuid = entity.Uuid;
+                            admin.FirstName = entity.FirstName;
+                            admin.LastName = entity.LastName;
+                            admin.Email = entity.Email;
+                            admin.Phone = entity.Phone;
+
+                            adminUsers.Add(admin);
+                        }
+                        return new Tuple<string, bool, IReadOnlyList<AdminUserDetail>>(msg, isSuccess, adminUsers);
+                    }
+                    else
+                    {
+                        return new Tuple<string, bool, IReadOnlyList<AdminUserDetail>>(msg, isSuccess, null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                isSuccess = false;
+                msg = "Something went wrong!";
+                return new Tuple<string, bool, IReadOnlyList<AdminUserDetail>>(msg, isSuccess, null);
+            }
+          
+        }
+
+        public Task<Tuple<string, bool, IReadOnlyList<AdminUser>>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<AdminUser> GetByIdAsync(int id)
+        public async Task<Tuple<string, bool, AdminUserDetail>> GetAdminUserByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            string msg = "";
+            bool isSuccess = false;
+            try
+            {
+                AdminUserDetail admin = new AdminUserDetail();
+                var query = "SP_OD_GET_BY_ID_ADMIN_USERS";
+                var parameters = new DynamicParameters();
+                parameters.Add("Id", id, DbType.Int32);
+                parameters.Add("IsSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                parameters.Add("MSG", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
+
+                using (var connection = CreateConnection())
+                {
+                    var data = (await connection.QueryAsync(query, parameters, commandType: CommandType.StoredProcedure)).FirstOrDefault();                   
+                    isSuccess = parameters.Get<bool>("IsSuccess");
+                    msg = parameters.Get<string>("MSG");
+
+                    if (isSuccess)
+                    {
+                        admin.Id = data.Id;
+                        admin.RoleId = data.RoleId;
+                        admin.RoleName = data.RoleName;
+                        admin.Uuid = data.Uuid;
+                        admin.FirstName = data.FirstName;
+                        admin.LastName = data.LastName;
+                        admin.Email = data.Email;
+                        admin.Phone = data.Phone;
+                        return new Tuple<string, bool, AdminUserDetail>(msg, isSuccess, admin);
+                    }
+                    else
+                    {
+                        return new Tuple<string, bool, AdminUserDetail>(msg, isSuccess, null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                isSuccess = false;
+                msg = "Something went wrong!";
+                return new Tuple<string, bool, AdminUserDetail>(msg, isSuccess, null);
+            }
         }
 
         public async Task<Tuple<string, bool, AdminUserDetail, JwtTokenDetails>> Login(string email, string password)
@@ -236,6 +327,11 @@ namespace OD_Comply.Infrastructure.Repositories
             response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
             return response;
+        }
+
+        public Task<AdminUser> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

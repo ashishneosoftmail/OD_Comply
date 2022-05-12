@@ -26,7 +26,7 @@ namespace OD_Comply.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<Tuple<IReadOnlyList<Role>,string,bool>> GetAllAsync()
+        public async Task<Tuple<string, bool,IReadOnlyList<Role>>> GetAllAsync()
         {
             string msg = "";
             bool isSuccess = false;
@@ -41,31 +41,27 @@ namespace OD_Comply.Infrastructure.Repositories
 
                     foreach (var entity in data)
                     {
-                        Role role = new Role();
-                        role.Id = entity.Id;
-                        role.Name = entity.Name;
-                        role.Uuid = entity.Uuid;
                         roles.Add(entity);
                     }
                     if (data.Count() > 0)
                     {
                         msg = "Success";
                         isSuccess = true;
-                        return new Tuple<IReadOnlyList<Role>, string, bool>(roles, msg, isSuccess);
+                        return new Tuple<string, bool,IReadOnlyList<Role>>( msg, isSuccess, roles);
                     }
                     else
                     {
                         isSuccess = false;
-                        msg = "Something went wrong";
-                        return new Tuple<IReadOnlyList<Role>, string, bool>(null, msg, isSuccess);
+                        msg = "No Data Found.";
+                        return new Tuple<string, bool,IReadOnlyList<Role>>( msg, isSuccess,null);
                     }
                 }
             }
             catch (Exception ex)
             {
                 isSuccess = false;
-                msg = "Something went wrong";
-                return new Tuple<IReadOnlyList<Role>, string, bool>(null, msg, isSuccess);
+                msg = "Something went wrong!";
+                return new Tuple<string, bool,IReadOnlyList<Role>>( msg, isSuccess,null);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OD_Comply.Application.Interfaces;
 using OD_Comply.Core.Entities;
 using OD_Comply.WebApi.Helper;
@@ -6,7 +7,8 @@ using OD_Comply.WebApi.Helper;
 namespace OD_Comply.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]  
+
     public class AdminUserController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
@@ -17,9 +19,12 @@ namespace OD_Comply.WebApi.Controllers
         }
 
         [HttpGet("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var data = await unitOfWork.AdminUsers.Login(email, password);
+            var hashedPassword = GenerateHash.EncryptString(password);
+            
+            var data = await unitOfWork.AdminUsers.Login(email, hashedPassword);
             string msg = data.Item1;
             bool isSuccess = data.Item2;
             AdminUserDetail detail = data.Item3;
@@ -48,8 +53,9 @@ namespace OD_Comply.WebApi.Controllers
             }
         }
 
-        [HttpPost("Add")]
-        public async Task<IActionResult> Create(AdminUser adminUser)
+        [HttpPost("AddAdminUser")]
+        [Authorize(Roles= "Admin")]
+        public async Task<IActionResult> AddAdminUser(AdminUser adminUser)
         {
             var hashedPassword = GenerateHash.EncryptString(adminUser.Password);
             adminUser.Password = hashedPassword;
@@ -75,8 +81,10 @@ namespace OD_Comply.WebApi.Controllers
 
         }
 
-        [HttpPut("Edit")]
-        public async Task<IActionResult> Update(AdminUser adminUser)
+        [HttpPost("EditAdminUser")]
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> UpdateAdminUser(AdminUser adminUser)
         {
             var hashedPassword = GenerateHash.EncryptString(adminUser.Password);
             adminUser.Password =hashedPassword;
@@ -102,8 +110,10 @@ namespace OD_Comply.WebApi.Controllers
 
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost("DeleteAdminUser")]
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> DeleteAdminUser(int id)
         {
             var data = await unitOfWork.AdminUsers.DeleteAsync(id);
             string msg = data.Item1;
@@ -125,6 +135,62 @@ namespace OD_Comply.WebApi.Controllers
                 });
             }
 
+        }
+
+        [HttpGet("GetAllAdminUser")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAdminUsers()
+        {
+            var data = await unitOfWork.AdminUsers.GetAllAdminUsersAsync();
+            string msg = data.Item1;
+            bool isSuccess = data.Item2;
+            var AdminList = data.Item3;
+
+            if (isSuccess)
+            {
+                return Ok(new
+                {
+                    Msg = msg,
+                    IsSuccess = isSuccess,
+                    Admin_Users = AdminList
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Msg = msg,
+                    IsSuccess = isSuccess
+                });
+            }
+        }
+
+        [HttpGet("GetByIdAdminUser")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAdminUserById(int id)
+        {
+            var data = await unitOfWork.AdminUsers.GetAdminUserByIdAsync(id);
+            string msg = data.Item1;
+            bool isSuccess = data.Item2;
+            var Admin = data.Item3;
+
+            if (isSuccess)
+            {
+                return Ok(new
+                {
+                    Msg = msg,
+                    IsSuccess = isSuccess,
+                    Admin_User = Admin
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Msg = msg,
+                    IsSuccess = isSuccess
+                });
+            }
         }
     }
 }

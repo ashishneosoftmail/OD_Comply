@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OD_Comply.Application.Interfaces;
+using OD_Comply.Core.Entities;
 
 namespace OD_Comply.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
-   // [Authorize(Roles = "Content Writer")]
     public class RoleController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
@@ -18,12 +17,32 @@ namespace OD_Comply.WebApi.Controllers
             this.unitOfWork = unitOfWork;
         }
 
-        //[Authorize]
+        
         [HttpGet("GetAllRole")]
         public async Task<IActionResult> GetAllRole()
         {
             var data = await unitOfWork.Roles.GetAllAsync();
-            return Ok(data);
+            string msg = data.Item1;
+            bool isSuccess = data.Item2;
+            var Roles = data.Item3;
+
+            if (isSuccess)
+            {
+                return Ok(new
+                {
+                    Msg = msg,
+                    IsSuccess = isSuccess,
+                    Roles = Roles
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Msg = msg,
+                    IsSuccess = isSuccess
+                });
+            }
         }
     }
 }
